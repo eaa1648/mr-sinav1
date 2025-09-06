@@ -1,0 +1,227 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Kullanicilar {
+  kullanici_id      String   @id @default(cuid())
+  tc_kimlik_no      String   @unique
+  ad                String
+  soyad             String
+  uzmanlik_alani    String?
+  hastane_id        String
+  rol               Role     @default(DOKTOR)
+  sifre             String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  
+  // Relations
+  hasta_kayitlari   Hasta_Kayitlari[]
+  klinik_puanlar    Klinik_Olcek_Puanlari[]
+  raporlar          Raporlar[]
+  hastane           Hastaneler @relation(fields: [hastane_id], references: [hastane_id])
+
+  @@map("kullanicilar")
+}
+
+model Hastalar {
+  hasta_id          String   @id @default(cuid())
+  tc_kimlik_no      String   @unique
+  ad                String
+  soyad             String
+  dogum_tarihi      DateTime?
+  cinsiyet          String?
+  telefon           String?
+  adres             String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  
+  // Relations
+  hasta_kayitlari   Hasta_Kayitlari[]
+  mr_goruntuleri    MR_Goruntuleri[]
+  klinik_puanlar    Klinik_Olcek_Puanlari[]
+  ilac_tedavileri   Ilac_Tedavileri[]
+  raporlar          Raporlar[]
+
+  @@map("hastalar")
+}
+
+model Klinik_Moduller {
+  modul_id          String   @id @default(cuid())
+  modul_adi         String   @unique
+  aciklama          String?
+  created_at        DateTime @default(now())
+  
+  // Relations
+  hasta_kayitlari   Hasta_Kayitlari[]
+
+  @@map("klinik_moduller")
+}
+
+model Hasta_Kayitlari {
+  kayit_id          String   @id @default(cuid())
+  hasta_id          String
+  kullanici_id      String
+  modul_id          String
+  kayit_tarihi      DateTime @default(now())
+  aktif             Boolean  @default(true)
+  
+  // Relations
+  hasta             Hastalar @relation(fields: [hasta_id], references: [hasta_id])
+  kullanici         Kullanicilar @relation(fields: [kullanici_id], references: [kullanici_id])
+  modul             Klinik_Moduller @relation(fields: [modul_id], references: [modul_id])
+
+  @@map("hasta_kayitlari")
+}
+
+model MR_Goruntuleri {
+  mr_id             String   @id @default(cuid())
+  hasta_id          String
+  cekilis_tarihi    DateTime
+  orijinal_dosya_yolu String
+  islenmis_veri_yolu String?
+  dosya_boyutu      Int?
+  isleme_durumu     IslemeStatus @default(BEKLEMEDE)
+  created_at        DateTime @default(now())
+  
+  // Relations
+  hasta             Hastalar @relation(fields: [hasta_id], references: [hasta_id])
+
+  @@map("mr_goruntuleri")
+}
+
+model Klinik_Olcek_Puanlari {
+  sonuc_id          String   @id @default(cuid())
+  hasta_id          String
+  olcek_adi         String
+  puan              Float
+  max_puan          Float?
+  degerlendirme_tarihi DateTime
+  giren_kullanici_id String
+  notlar            String?
+  created_at        DateTime @default(now())
+  
+  // Relations
+  hasta             Hastalar @relation(fields: [hasta_id], references: [hasta_id])
+  giren_kullanici   Kullanicilar @relation(fields: [giren_kullanici_id], references: [kullanici_id])
+
+  @@map("klinik_olcek_puanlari")
+}
+
+model Ilac_Tedavileri {
+  tedavi_id         String   @id @default(cuid())
+  hasta_id          String
+  ilac_adi          String
+  dozaj             String
+  birim             String?
+  baslangic_tarihi  DateTime
+  bitis_tarihi      DateTime?
+  aktif             Boolean  @default(true)
+  notlar            String?
+  created_at        DateTime @default(now())
+  
+  // Relations
+  hasta             Hastalar @relation(fields: [hasta_id], references: [hasta_id])
+
+  @@map("ilac_tedavileri")
+}
+
+model Raporlar {
+  rapor_id          String   @id @default(cuid())
+  hasta_id          String
+  olusturan_kullanici_id String
+  olusturma_tarihi  DateTime @default(now())
+  yapay_zeka_yorumu String?
+  optimizasyon_sonucu Json?
+  doktor_gorusleri  String?
+  gaf_uyum_skoru    Float?
+  rapor_dosya_yolu  String?
+  mr_id_1           String?
+  mr_id_2           String?
+  durum             RaporStatus @default(TASLAK)
+  
+  // Relations
+  hasta             Hastalar @relation(fields: [hasta_id], references: [hasta_id])
+  olusturan_kullanici Kullanicilar @relation(fields: [olusturan_kullanici_id], references: [kullanici_id])
+
+  @@map("raporlar")
+}
+
+model Bekleyen_Kayitlar {
+  id                String   @id @default(cuid())
+  tc_kimlik_no      String   @unique
+  ad                String
+  soyad             String
+  uzmanlik_alani    String
+  hastane_id        String
+  hastane_adi       String?
+  sifre             String
+  telefon           String?
+  email             String?
+  diploma_no        String?
+  mezuniyet_tarihi  DateTime?
+  basvuru_tarihi    DateTime @default(now())
+  durum             KayitStatus @default(BEKLEMEDE)
+  onay_tarihi       DateTime?
+  onaylayan_kullanici_id String?
+  red_nedeni        String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  
+  @@map("bekleyen_kayitlar")
+}
+
+model Hastaneler {
+  hastane_id        String   @id @default(cuid())
+  hastane_adi       String   @unique
+  sehir             String
+  adres             String?
+  telefon           String?
+  email             String?
+  website           String?
+  aktif_doktor_sayisi Int     @default(0)
+  aktif_hasta_sayisi  Int     @default(0)
+  koordinat_x       Float?
+  koordinat_y       Float?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  
+  // Relations
+  kullanicilar      Kullanicilar[]
+
+  @@map("hastaneler")
+}
+
+enum Role {
+  DOKTOR
+  YONETICI
+  ADMIN
+  HEMSIRE
+}
+
+enum IslemeStatus {
+  BEKLEMEDE
+  ISLENIYOR
+  TAMAMLANDI
+  HATA
+}
+
+enum RaporStatus {
+  TASLAK
+  INCELEME
+  ONAYLANDI
+  ARSIVLENDI
+}
+
+enum KayitStatus {
+  BEKLEMEDE
+  ONAYLANDI
+  REDDEDILDI
+}

@@ -1,0 +1,22 @@
+INFO:brain_mri_processor:Using device: cpu
+/Users/efeataakan/Desktop/mrv1/mr-sina/python_services/main.py:39: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Will watch for changes in these directories: ['/Users/efeataakan/Desktop/mrv1/mr-sina/python_services']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [23249] using StatReload
+🚀 Starting Mr. Sina Brain MRI Processing Service...
+📊 Processor available: True
+🔬 Mode: Full
+INFO:brain_mri_processor:Using device: cpu
+INFO:brain_mri_processor:Using device: cpu
+INFO:     Started server process [23260]
+INFO:     Waiting for application startup.
+INFO:main:Mr. Sina Brain MRI Processing Service started successfully
+INFO:main:Using device: cpu
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60764 - "GET /health HTTP/1.1" 200 OK

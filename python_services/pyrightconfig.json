@@ -1,0 +1,77 @@
+{
+  "include": [
+    "**/*.py"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.pytest_cache",
+    "**/venv",
+    "**/.venv"
+  ],
+  "ignore": [
+    "**/venv/**",
+    "**/.venv/**"
+  ],
+  "venvPath": ".",
+  "venv": "./venv",
+  "pythonVersion": "3.13",
+  "pythonPlatform": "Darwin",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "pythonVersion": "3.13",
+      "pythonPlatform": "Darwin",
+      "extraPaths": [
+        "./venv/lib/python3.13/site-packages"
+      ]
+    }
+  ],
+  "typeCheckingMode": "off",
+  "reportMissingImports": "none",
+  "reportMissingTypeStubs": "none",
+  "reportOptionalMemberAccess": "none",
+  "reportOptionalCall": "none",
+  "reportAttributeAccessIssue": "none",
+  "reportAssignmentType": "none",
+  "reportInvalidTypeForm": "none",
+  "reportGeneralTypeIssues": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownParameterType": "none",
+  "reportUntypedFunctionDecorator": "none",
+  "reportUntypedClassDecorator": "none",
+  "reportUntypedBaseClass": "none",
+  "reportUntypedNamedTuple": "none",
+  "reportPrivateUsage": "none",
+  "reportConstantRedefinition": "none",
+  "reportIncompatibleMethodOverride": "none",
+  "reportIncompatibleVariableOverride": "none",
+  "reportInconsistentConstructor": "none",
+  "reportOverlappingOverload": "none",
+  "reportMissingSuperCall": "none",
+  "reportUninitializedInstanceVariable": "none",
+  "reportInvalidStringEscapeSequence": "none",
+  "reportMissingParameterType": "none",
+  "reportMissingTypeArgument": "none",
+  "reportInvalidTypeVarUse": "none",
+  "reportCallInDefaultInitializer": "none",
+  "reportUnnecessaryIsInstance": "none",
+  "reportUnnecessaryCast": "none",
+  "reportUnnecessaryComparison": "none",
+  "reportUnnecessaryContains": "none",
+  "reportAssertAlwaysTrue": "none",
+  "reportSelfClsParameterName": "none",
+  "reportImplicitStringConcatenation": "none",
+  "reportUndefinedVariable": "none",
+  "reportUnboundVariable": "none",
+  "reportInvalidStubStatement": "none",
+  "reportIncompleteStub": "none",
+  "reportUnsupportedDunderAll": "none",
+  "reportUnusedCallResult": "none",
+  "strictListInference": false,
+  "strictDictionaryInference": false,
+  "strictSetInference": false,
+  "strictParameterNoneValue": false
+}
