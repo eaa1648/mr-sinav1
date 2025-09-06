@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Efe Ataakan - All rights reserved
+// Unauthorized copying or distribution of this code is strictly prohibited
+
 'use client'
 
 import { useState } from 'react'

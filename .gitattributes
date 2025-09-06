@@ -1,0 +1,27 @@
+# Copyright and licensing information
+* text=auto
+
+# Prevent diffing of sensitive files
+*.key binary
+*.pem binary
+.env binary
+
+# Ensure line endings are consistent
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.py text eol=lf
+
+# Documentation files
+README.md linguist-documentation
+LICENSE linguist-documentation
+
+# Detect languages properly
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.py linguist-language=Python

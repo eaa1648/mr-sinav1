@@ -279,7 +279,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
                 <p className="text-gray-400 text-sm">
-                  © 2024 Mr. Sina. Tüm hakları saklıdır.
+                  © 2025 Efe Ataakan. Tüm hakları saklıdır.
                 </p>
                 <div className="flex space-x-6 text-sm">
                   <a href="#" className="text-gray-400 hover:text-white transition-colors">Gizlilik Politikası</a>

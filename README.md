@@ -141,3 +141,26 @@ Bu proje, psikiyatrik hastalıklarda yapay zeka destekli klinik izlem ve görün
 - **NIfTI** (.nii, .nii.gz) - Nörogörüntüleme formatı
 - **TIFF** - Yüksek kaliteli görüntüler
 - **JPEG/PNG** - Genel formatlar
+
+## 🛡️ Telif Hakkı ve Lisans
+
+Bu proje, tıbbi teşhis ve tedavi kararlarını desteklemek amacıyla geliştirilmiş bir yapay zeka sistemidir. Tüm telif hakları saklıdır.
+
+**Telif Hakkı © 2025 Efe Ataakan**
+
+Bu yazılım, tıbbi danışmanlık ve karar destek sistemi olarak tasarlanmıştır. Doğrudan teşhis veya tedavi amaçlı kullanımda **hiçbir sorumluluk kabul edilmez**. 
+
+### Kullanım Koşulları
+1. Bu sistem yalnızca **tıbbi profesyoneller** tarafından danışmanlık amacıyla kullanılmalıdır.
+2. Sistemin verdiği sonuçlar **kesinlikle tek başına teşhis amaçlı kullanılmamalıdır**.
+3. Tüm tıbbi kararlar, **sadece yetkili hekimler** tarafından verilmelidir.
+4. Yazılımın izinsiz olarak kopyalanması, dağıtılması veya ticari kullanımı yasaktır.
+
+### Feragatname
+Bu yazılım "olduğu gibi" sağlanmakta olup, herhangi bir garanti verilmemektedir. Yazılımın kullanımıyla ilgili olarak ortaya çıkabilecek doğrudan veya dolaylı hiçbir zarar için sorumluluk kabul edilmez.
+
+## 📞 İletişim
+
+Proje sahibi: Efe Ataakan
+Email: [eaa1648@example.com](mailto:eaa1648@example.com)
+GitHub: [eaa1648](https://github.com/eaa1648)
