@@ -5,15 +5,17 @@ import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
 export async function GET(request: NextRequest) {
   try {
     // Hospital list should be publicly accessible
+    console.log('Fetching hospitals from database...')
     const hospitals = await prisma.hastaneler.findMany({
       orderBy: { sehir: 'asc' }
     })
+    console.log(`Found ${hospitals.length} hospitals`)
 
     return NextResponse.json({ hospitals })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get hospitals error:', error)
-    return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
+    return NextResponse.json({ error: 'Sunucu hatası', details: error.message || 'Bilinmeyen hata' }, { status: 500 })
   }
 }
 
@@ -53,8 +55,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ hospital })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create hospital error:', error)
-    return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
+    return NextResponse.json({ error: 'Sunucu hatası', details: error.message || 'Bilinmeyen hata' }, { status: 500 })
   }
 }
