@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Brain, Calendar, Zap, FileText, Download, ArrowRight, RotateCcw } from 'lucide-react'
+import { Brain, Calendar, Zap, FileText, Download, ArrowRight, RotateCcw, Microscope } from 'lucide-react'
+import FreeSurferAnalysis from '@/components/FreeSurferAnalysis'
 
 interface MRImage {
   mr_id: string
@@ -24,6 +25,8 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
+  const [showFreeSurfer, setShowFreeSurfer] = useState(false)
+  const [selectedMRForFreeSurfer, setSelectedMRForFreeSurfer] = useState<string>('')
 
   // Filter processed MR images
   const processedMRs = mrImages.filter(mr => mr.isleme_durumu === 'TAMAMLANDI')
@@ -107,6 +110,13 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
     setSelectedMR2('')
     setAnalysisResult(null)
     setError(null)
+    setShowFreeSurfer(false)
+  }
+
+  const handleFreeSurferAnalysisComplete = (result: any) => {
+    // Handle the completion of FreeSurfer analysis
+    console.log('FreeSurfer analysis completed:', result)
+    // You could update the UI or trigger other actions here
   }
 
   if (processedMRs.length < 2) {
@@ -162,7 +172,7 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
               {processedMRs.map((mr) => (
                 <div
                   key={mr.mr_id}
-                  className={`border rounded-lg p-4 cursor-pointer transition-all ${
+                  className={`border rounded-lg p-4 cursor-pointer transition-all relative ${
                     selectedMR1 === mr.mr_id
                       ? 'border-indigo-500 bg-indigo-50'
                       : 'border-gray-200 hover:border-gray-300'
@@ -182,6 +192,17 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
                       {getStatusText(mr.isleme_durumu)}
                     </span>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedMRForFreeSurfer(mr.mr_id);
+                      setShowFreeSurfer(true);
+                    }}
+                    className="absolute top-2 right-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded hover:bg-purple-200"
+                  >
+                    <Microscope className="h-3 w-3 inline mr-1" />
+                    FreeSurfer
+                  </button>
                 </div>
               ))}
             </div>
@@ -196,7 +217,7 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
               {processedMRs.map((mr) => (
                 <div
                   key={mr.mr_id}
-                  className={`border rounded-lg p-4 cursor-pointer transition-all ${
+                  className={`border rounded-lg p-4 cursor-pointer transition-all relative ${
                     selectedMR2 === mr.mr_id
                       ? 'border-indigo-500 bg-indigo-50'
                       : 'border-gray-200 hover:border-gray-300'
@@ -218,11 +239,43 @@ export default function MRComparison({ patientId, mrImages, onGenerateReport }: 
                       {getStatusText(mr.isleme_durumu)}
                     </span>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedMRForFreeSurfer(mr.mr_id);
+                      setShowFreeSurfer(true);
+                    }}
+                    className="absolute top-2 right-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded hover:bg-purple-200"
+                  >
+                    <Microscope className="h-3 w-3 inline mr-1" />
+                    FreeSurfer
+                  </button>
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+        {/* FreeSurfer Analysis Panel */}
+        {showFreeSurfer && (
+          <div className="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="flex justify-between items-center mb-3">
+              <h4 className="font-medium text-purple-900">FreeSurfer Detaylı Beyin Analizi</h4>
+              <button
+                onClick={() => setShowFreeSurfer(false)}
+                className="text-purple-700 hover:text-purple-900"
+              >
+                Kapat
+              </button>
+            </div>
+            <FreeSurferAnalysis
+              patientId={patientId}
+              mrImageId={selectedMRForFreeSurfer}
+              niftiFilePath={mrImages.find(mr => mr.mr_id === selectedMRForFreeSurfer)?.orijinal_dosya_yolu || ''}
+              onAnalysisComplete={handleFreeSurferAnalysisComplete}
+            />
+          </div>
+        )}
 
         {/* Analyze Button */}
         <div className="flex justify-center mb-6">

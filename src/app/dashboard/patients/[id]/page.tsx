@@ -7,7 +7,7 @@ import {
   Brain, FileText, Upload, Download, Plus, 
   Search, Edit, Trash2, Eye, TrendingUp,
   ChevronLeft, ChevronRight, Heart, Stethoscope, Pill, 
-  BarChart3, AlertTriangle, CheckCircle
+  BarChart3, AlertTriangle, CheckCircle, Microscope
 } from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import ClinicalScalesForm from '@/components/ClinicalScalesForm'
@@ -16,6 +16,7 @@ import ClinicalDataChart from '@/components/ClinicalDataChart'
 import MedicationTimeline from '@/components/MedicationTimeline'
 import MRComparison from '@/components/MRComparison'
 import { clinicalDecisionSupport } from '@/lib/optimizationModel'
+import FreeSurferAnalysisSection from '@/components/FreeSurferAnalysisSection'
 
 interface Patient {
   hasta_id: string
@@ -104,6 +105,7 @@ export default function PatientDetailPage({ params }: { params: { id: string } }
     { id: 'clinical-scores', name: 'Klinik Ölçekler', icon: Activity },
     { id: 'medications', name: 'Tedavi Geçmişi', icon: Pill },
     { id: 'reports', name: 'Raporlar', icon: FileText },
+    { id: 'freesurfer', name: 'FreeSurfer Analizi', icon: Microscope },
     { id: 'analytics', name: 'Analitik', icon: BarChart3 },
     { id: 'recommendations', name: 'Öneriler', icon: Stethoscope }
   ]
@@ -221,6 +223,10 @@ export default function PatientDetailPage({ params }: { params: { id: string } }
 
             {activeTab === 'reports' && (
               <Reports patient={patient} />
+            )}
+
+            {activeTab === 'freesurfer' && (
+              <FreeSurferAnalysisSection patient={patient} />
             )}
 
             {activeTab === 'analytics' && (
@@ -887,6 +893,10 @@ function Reports({ patient }: { patient: Patient }) {
 
 // Analytics Component
 function Analytics({ patient }: { patient: Patient }) {
+  const [optimizationResult, setOptimizationResult] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   // Mock analytics data - in a real implementation, this would come from the backend
   const analyticsData = {
     totalMRImages: patient.mr_goruntuleri?.length || 0,
@@ -901,8 +911,178 @@ function Analytics({ patient }: { patient: Patient }) {
     ]
   }
 
+  const runOptimizationAnalysis = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const token = localStorage.getItem('token')
+      
+      const response = await fetch(`/api/patients/${patient.hasta_id}/optimize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          timeHorizon: 90,
+          objective: 'minimize_symptoms'
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setOptimizationResult(data.optimizationResult)
+      } else {
+        throw new Error('Optimizasyon analizi başarısız oldu')
+      }
+    } catch (err) {
+      console.error('Error running optimization:', err)
+      setError('Optimizasyon analizi sırasında bir hata oluştu. Lütfen tekrar deneyin.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
+      {/* Optimization Analysis Button */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-medium text-gray-900">Klinik Optimizasyon Analizi</h3>
+            <p className="text-sm text-gray-500 mt-1">
+              Hastanın semptom gelişimini tahmin edin ve tedavi önerileri alın
+            </p>
+          </div>
+          <button
+            onClick={runOptimizationAnalysis}
+            disabled={loading}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 flex items-center"
+          >
+            {loading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Analiz Ediliyor...
+              </>
+            ) : (
+              <>
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Analiz Et
+              </>
+            )}
+          </button>
+        </div>
+        
+        {error && (
+          <div className="mt-4 p-3 bg-red-50 rounded-md">
+            <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Optimization Results */}
+      {optimizationResult && (
+        <div className="bg-white shadow rounded-lg p-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-4">Optimizasyon Sonuçları</h3>
+          
+          {/* Risk Assessment */}
+          <div className={`p-4 rounded-lg mb-6 ${
+            optimizationResult.riskAssessment.riskLevel === 'high' ? 'bg-red-50 border border-red-200' :
+            optimizationResult.riskAssessment.riskLevel === 'medium' ? 'bg-yellow-50 border border-yellow-200' :
+            'bg-green-50 border border-green-200'
+          }`}>
+            <div className="flex items-center mb-3">
+              {optimizationResult.riskAssessment.riskLevel === 'high' ? (
+                <AlertTriangle className="h-5 w-5 text-red-600 mr-2" />
+              ) : optimizationResult.riskAssessment.riskLevel === 'medium' ? (
+                <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2" />
+              ) : (
+                <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+              )}
+              <span className={`font-medium ${
+                optimizationResult.riskAssessment.riskLevel === 'high' ? 'text-red-800' :
+                optimizationResult.riskAssessment.riskLevel === 'medium' ? 'text-yellow-800' :
+                'text-green-800'
+              }`}>
+                {optimizationResult.riskAssessment.riskLevel === 'high' ? 'Yüksek Risk' :
+                 optimizationResult.riskAssessment.riskLevel === 'medium' ? 'Orta Risk' : 'Düşük Risk'}
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-2">Risk Faktörleri:</h4>
+                <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                  {optimizationResult.riskAssessment.riskFactors.map((factor: string, idx: number) => (
+                    <li key={idx}>{factor}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-medium text-gray-700 mb-2">Önerilen Müdahaleler:</h4>
+                <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                  {optimizationResult.riskAssessment.mitigationStrategies.map((strategy: string, idx: number) => (
+                    <li key={idx}>{strategy}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          {/* Treatment Suggestions */}
+          <div className="mb-6">
+            <h4 className="font-medium text-gray-900 mb-3">Tedavi Önerileri</h4>
+            <div className="space-y-3">
+              {optimizationResult.treatmentSuggestions.map((suggestion: string, idx: number) => (
+                <div key={idx} className="flex items-start p-3 bg-blue-50 rounded-lg">
+                  <Heart className="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
+                  <p className="text-sm text-gray-700">{suggestion}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* GAF Prediction */}
+          {optimizationResult.gafPrediction && (
+            <div className="mb-6">
+              <h4 className="font-medium text-gray-900 mb-3">Tahmini GAF Skoru</h4>
+              <div className="flex items-center justify-center">
+                <div className="relative">
+                  <div className="w-32 h-32 rounded-full border-8 border-indigo-200 flex items-center justify-center">
+                    <div className="text-center">
+                      <span className="text-2xl font-bold text-indigo-600">{optimizationResult.gafPrediction}</span>
+                      <p className="text-xs text-gray-600 mt-1">Tahmini GAF</p>
+                    </div>
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white text-xs font-medium px-2 py-1 rounded-full">
+                    {optimizationResult.gafPrediction >= 70 ? 'İyi' : 
+                     optimizationResult.gafPrediction >= 50 ? 'Orta' : 'Düşük'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Predicted Trajectory Chart */}
+          {optimizationResult.predictedTrajectory && optimizationResult.predictedTrajectory.length > 0 && (
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3">Tahmini Semptom Gelişimi</h4>
+              <div className="h-64">
+                <ClinicalDataChart 
+                  scores={optimizationResult.predictedTrajectory.map((point: any) => ({
+                    degerlendirme_tarihi: point.date,
+                    olcek_adi: 'Tahmini Semptomlar',
+                    puan: point.predictedScore,
+                    max_puan: 100
+                  }))} 
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white shadow rounded-lg p-6">
@@ -1007,6 +1187,7 @@ function Analytics({ patient }: { patient: Patient }) {
 function Recommendations({ patient }: { patient: Patient }) {
   const [recommendations, setRecommendations] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     generateRecommendations()
@@ -1014,31 +1195,49 @@ function Recommendations({ patient }: { patient: Patient }) {
 
   const generateRecommendations = async () => {
     setLoading(true)
+    setError(null)
     try {
-      // In a real implementation, this would call the clinical decision support system
-      // For now, we'll use mock data
-      const mockRecommendations = {
-        riskAssessment: {
-          riskLevel: 'medium',
-          riskFactors: ['Yüksek YMRS puanı', 'Tedavi değişikliği'],
-          mitigationStrategies: ['Yakın takip önerilir', 'Tedavi dozajı gözden geçirilmeli']
-        },
-        treatmentSuggestions: [
-          'Lityum dozajının kontrolü önerilir',
-          'Aylık MR takibi planlanmalı',
-          'Multidisipliner konsül değerlendirmesi yapılmalı'
-        ],
-        predictedTrajectory: [
-          { date: new Date('2023-07-01'), predictedScore: 45, confidenceInterval: [40, 50] },
-          { date: new Date('2023-08-01'), predictedScore: 40, confidenceInterval: [35, 45] },
-          { date: new Date('2023-09-01'), predictedScore: 35, confidenceInterval: [30, 40] }
-        ],
-        gafPrediction: 75
-      }
+      const token = localStorage.getItem('token')
       
-      setRecommendations(mockRecommendations)
-    } catch (error) {
-      console.error('Error generating recommendations:', error)
+      // Prepare patient history data for the clinical decision support system
+      const patientHistory = {
+        clinicalData: (patient.klinik_puanlar || []).map(score => ({
+          date: new Date(score.degerlendirme_tarihi),
+          scaleName: score.olcek_adi,
+          score: score.puan,
+          maxScore: score.max_puan
+        })),
+        treatments: (patient.ilac_tedavileri || []).map(treatment => ({
+          medication: treatment.ilac_adi,
+          dosage: treatment.dozaj,
+          startDate: new Date(treatment.baslangic_tarihi),
+          endDate: treatment.bitis_tarihi ? new Date(treatment.bitis_tarihi) : undefined
+        })),
+        mrImages: (patient.mr_goruntuleri || []).map(mr => ({
+          date: new Date(mr.cekilis_tarihi),
+          path: mr.orijinal_dosya_yolu,
+          analysis: mr.islenmis_veri_yolu ? { processed: true } : undefined
+        }))
+      }
+
+      // Define optimization parameters
+      const parameters = {
+        timeHorizon: 90, // 3 months
+        objective: 'minimize_symptoms' as const,
+        constraints: {
+          maxMedicationChanges: 2,
+          minTreatmentDuration: 30,
+          maxDosage: 100
+        }
+      }
+
+      // Call the clinical decision support system
+      const result = clinicalDecisionSupport.analyzePatient(patientHistory, parameters)
+      
+      setRecommendations(result)
+    } catch (err) {
+      console.error('Error generating recommendations:', err)
+      setError('Öneriler oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.')
     } finally {
       setLoading(false)
     }
@@ -1049,6 +1248,23 @@ function Recommendations({ patient }: { patient: Patient }) {
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex justify-center items-center h-32">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white shadow rounded-lg p-6">
+        <div className="text-center py-12">
+          <AlertTriangle className="h-12 w-12 text-red-400 mx-auto mb-4" />
+          <p className="text-red-600">{error}</p>
+          <button
+            onClick={generateRecommendations}
+            className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+          >
+            Tekrar Dene
+          </button>
         </div>
       </div>
     )
@@ -1069,7 +1285,15 @@ function Recommendations({ patient }: { patient: Patient }) {
     <div className="space-y-6">
       {/* Risk Assessment */}
       <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Risk Değerlendirmesi</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-medium text-gray-900">Risk Değerlendirmesi</h3>
+          <button
+            onClick={generateRecommendations}
+            className="text-sm text-indigo-600 hover:text-indigo-800"
+          >
+            Yenile
+          </button>
+        </div>
         <div className={`p-4 rounded-lg ${
           recommendations.riskAssessment.riskLevel === 'high' ? 'bg-red-50 border border-red-200' :
           recommendations.riskAssessment.riskLevel === 'medium' ? 'bg-yellow-50 border border-yellow-200' :
@@ -1127,28 +1351,30 @@ function Recommendations({ patient }: { patient: Patient }) {
       </div>
       
       {/* GAF Prediction */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Tahmini GAF Skoru</h3>
-        <div className="flex items-center justify-center">
-          <div className="relative">
-            <div className="w-48 h-48 rounded-full border-8 border-indigo-200 flex items-center justify-center">
-              <div className="text-center">
-                <span className="text-3xl font-bold text-indigo-600">{recommendations.gafPrediction}</span>
-                <p className="text-sm text-gray-600 mt-1">Tahmini GAF</p>
+      {recommendations.gafPrediction && (
+        <div className="bg-white shadow rounded-lg p-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-4">Tahmini GAF Skoru</h3>
+          <div className="flex items-center justify-center">
+            <div className="relative">
+              <div className="w-48 h-48 rounded-full border-8 border-indigo-200 flex items-center justify-center">
+                <div className="text-center">
+                  <span className="text-3xl font-bold text-indigo-600">{recommendations.gafPrediction}</span>
+                  <p className="text-sm text-gray-600 mt-1">Tahmini GAF</p>
+                </div>
+              </div>
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                {recommendations.gafPrediction >= 70 ? 'İyi' : 
+                 recommendations.gafPrediction >= 50 ? 'Orta' : 'Düşük'}
               </div>
             </div>
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-              {recommendations.gafPrediction >= 70 ? 'İyi' : 
-               recommendations.gafPrediction >= 50 ? 'Orta' : 'Düşük'}
-            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              GAF (Global Assessment of Functioning) skoru, bireyin psikolojik, sosyal ve mesleki işlevselliğini değerlendiren bir ölçektir.
+            </p>
           </div>
         </div>
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            GAF (Global Assessment of Functioning) skoru, bireyin psikolojik, sosyal ve mesleki işlevselliğini değerlendiren bir ölçektir.
-          </p>
-        </div>
-      </div>
+      )}
     </div>
   )
 }

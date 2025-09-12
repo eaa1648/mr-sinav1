@@ -277,3 +277,119 @@ export async function getBrainStructures() {
     throw error;
   }
 }
+
+/**
+ * Run FreeSurfer analysis on a NIfTI file
+ * @param niftiFilePath Path to NIfTI file
+ * @param subjectId Subject identifier
+ * @param flags Optional recon-all flags
+ * @returns Analysis result
+ */
+export async function runFreeSurferAnalysis(niftiFilePath: string, subjectId: string, flags?: string[]) {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/freesurfer-analysis`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nifti_file: niftiFilePath,
+        subject_id: subjectId,
+        flags: flags ? flags.join(' ') : undefined
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error running FreeSurfer analysis:', error);
+    throw error;
+  }
+}
+
+/**
+ * Collect statistical data from FreeSurfer analysis
+ * @param subjectId Subject identifier
+ * @returns Statistical data
+ */
+export async function collectFreeSurferStats(subjectId: string) {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/collect-freesurfer-stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        subject_id: subjectId
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error collecting FreeSurfer stats:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get the processing status of a FreeSurfer subject
+ * @param subjectId Subject identifier
+ * @returns Subject status
+ */
+export async function getFreeSurferSubjectStatus(subjectId: string) {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/freesurfer-subject-status/${subjectId}`);
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error getting FreeSurfer subject status:', error);
+    throw error;
+  }
+}
+
+/**
+ * Run the complete MR analysis pipeline
+ * @param dicomDir Path to directory containing DICOM files
+ * @param subjectId Subject identifier
+ * @param outputDir Optional output directory
+ * @returns Analysis pipeline result
+ */
+export async function runMRAnalysisPipeline(dicomDir: string, subjectId: string, outputDir?: string) {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/run-mr-analysis-pipeline`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        dicom_dir: dicomDir,
+        subject_id: subjectId,
+        output_dir: outputDir
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error running MR analysis pipeline:', error);
+    throw error;
+  }
+}

@@ -5,12 +5,12 @@ import { useState } from 'react'
 import { TrendingUp, BarChart3 } from 'lucide-react'
 
 interface ClinicalScore {
-  sonuc_id: string
+  sonuc_id?: string
   olcek_adi: string
   puan: number
   max_puan: number | null
   degerlendirme_tarihi: string
-  giren_kullanici: {
+  giren_kullanici?: {
     ad: string
     soyad: string
   }
@@ -44,7 +44,7 @@ export default function ClinicalDataChart({ scores, selectedScale }: ClinicalDat
           score: score.puan,
           maxScore: score.max_puan || 100,
           percentage: score.max_puan ? Math.round((score.puan / score.max_puan) * 100) : score.puan,
-          evaluator: `${score.giren_kullanici.ad} ${score.giren_kullanici.soyad}`,
+          evaluator: score.giren_kullanici ? `${score.giren_kullanici.ad} ${score.giren_kullanici.soyad}` : '',
           index: index + 1
         }))
     }
@@ -88,7 +88,7 @@ export default function ClinicalDataChart({ scores, selectedScale }: ClinicalDat
           textAnchor="end"
           height={80}
         />
-        <YAxis />
+        <YAxis domain={[0, 100]} />
         <Tooltip 
           formatter={(value: any, name: string) => [
             typeof value === 'number' ? value.toFixed(1) : value,
@@ -131,7 +131,7 @@ export default function ClinicalDataChart({ scores, selectedScale }: ClinicalDat
           textAnchor="end"
           height={80}
         />
-        <YAxis />
+        <YAxis domain={[0, 100]} />
         <Tooltip 
           formatter={(value: any, name: string) => [
             typeof value === 'number' ? value.toFixed(1) : value,
