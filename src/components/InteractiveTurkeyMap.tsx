@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { MapPin, Phone, Mail } from 'lucide-react'
+import { MapPin, Phone, Mail, Users, Activity } from 'lucide-react'
 
 interface Hospital {
   hastane_id: string
@@ -22,6 +22,7 @@ export default function InteractiveTurkeyMap() {
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [hoveredHospital, setHoveredHospital] = useState<Hospital | null>(null)
 
   useEffect(() => {
     fetchHospitals()
@@ -51,9 +52,15 @@ export default function InteractiveTurkeyMap() {
   }
 
   const getMarkerColor = (hospital: Hospital) => {
-    if (hospital.aktif_doktor_sayisi > 20) return '#10B981'
-    if (hospital.aktif_doktor_sayisi > 15) return '#3B82F6'
-    return '#F59E0B'
+    if (hospital.aktif_doktor_sayisi > 20) return '#10B981' // green
+    if (hospital.aktif_doktor_sayisi > 15) return '#3B82F6' // blue
+    return '#F59E0B' // amber
+  }
+
+  const getMarkerSize = (hospital: Hospital) => {
+    if (hospital.aktif_hasta_sayisi > 500) return 6
+    if (hospital.aktif_hasta_sayisi > 200) return 4
+    return 3
   }
 
   if (loading) {
@@ -104,6 +111,7 @@ export default function InteractiveTurkeyMap() {
           {/* Interactive Map */}
           <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg relative overflow-hidden">
             <svg viewBox="0 0 100 60" className="w-full h-full">
+              {/* Turkey map outline */}
               <path
                 d="M15 25 Q20 20, 25 22 Q35 18, 45 20 Q60 15, 75 18 Q85 20, 90 25 Q88 35, 85 40 Q75 45, 65 42 Q50 48, 35 45 Q25 42, 20 38 Q15 35, 15 25 Z"
                 fill="#e0e7ff"
@@ -111,37 +119,65 @@ export default function InteractiveTurkeyMap() {
                 strokeWidth="0.5"
               />
               
+              {/* Hospital markers */}
               {hospitals.map((hospital) => {
                 // Convert coordinates to map positions
                 const x = hospital.koordinat_x ? (hospital.koordinat_x - 26) * 2.5 + 15 : 50
                 const y = hospital.koordinat_y ? 60 - (hospital.koordinat_y - 36) * 5 : 30
                 const isSelected = selectedHospital?.hastane_id === hospital.hastane_id
+                const isHovered = hoveredHospital?.hastane_id === hospital.hastane_id
+                const markerSize = getMarkerSize(hospital)
+                const markerColor = getMarkerColor(hospital)
                 
                 return (
-                  <g key={hospital.hastane_id}>
+                  <g 
+                    key={hospital.hastane_id}
+                    onMouseEnter={() => setHoveredHospital(hospital)}
+                    onMouseLeave={() => setHoveredHospital(null)}
+                    onClick={() => setSelectedHospital(hospital)}
+                    className="cursor-pointer transition-all duration-200"
+                  >
                     <circle
                       cx={x}
                       cy={y}
-                      r={isSelected ? 3 : 2}
-                      fill={getMarkerColor(hospital)}
+                      r={isSelected || isHovered ? markerSize + 1 : markerSize}
+                      fill={markerColor}
                       stroke="white"
                       strokeWidth="0.5"
-                      className="cursor-pointer transition-all"
-                      onClick={() => setSelectedHospital(hospital)}
+                      className="transition-all duration-200"
                     />
-                    <text
-                      x={x}
-                      y={y + 4}
-                      textAnchor="middle"
-                      className="text-xs fill-gray-700"
-                      style={{ fontSize: '3px' }}
-                    >
-                      {hospital.sehir}
-                    </text>
+                    {(isSelected || isHovered) && (
+                      <text
+                        x={x}
+                        y={y - markerSize - 2}
+                        textAnchor="middle"
+                        className="text-xs fill-gray-800 font-medium"
+                        style={{ fontSize: '2.5px' }}
+                      >
+                        {hospital.sehir}
+                      </text>
+                    )}
                   </g>
                 )
               })}
             </svg>
+            
+            {/* Legend */}
+            <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 rounded-lg p-2 text-xs">
+              <div className="font-medium mb-1">Hastane Yoğunluğu</div>
+              <div className="flex items-center mb-1">
+                <div className="w-3 h-3 rounded-full bg-green-500 mr-1"></div>
+                <span>20+ Doktor</span>
+              </div>
+              <div className="flex items-center mb-1">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mr-1"></div>
+                <span>15+ Doktor</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-amber-500 mr-1"></div>
+                <span>15 Doktor</span>
+              </div>
+            </div>
           </div>
 
           {/* Hospital List */}

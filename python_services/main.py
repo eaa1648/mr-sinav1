@@ -8,7 +8,11 @@ import tempfile
 import logging
 from typing import Dict, List, Optional
 from brain_mri_processor import BrainMRIProcessor
+from huggingface_brain_seg import HuggingFaceBrainSegmenter
 import numpy as np
+
+# Import the new FreeSurfer processor
+from freesurfer_processor import FreeSurferProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +37,14 @@ app.add_middleware(
 # Initialize the brain MRI processor
 processor = BrainMRIProcessor()
 
+# Initialize the Hugging Face brain segmenter
+# Use the model in the models directory
+model_path = os.path.join(os.path.dirname(__file__), "models", "model.pt")
+segmenter = HuggingFaceBrainSegmenter(model_path)
+
+# Initialize the FreeSurfer processor
+freesurfer_processor = FreeSurferProcessor()
+
 # Background processing tasks
 processing_queue = {}
 
@@ -47,13 +59,18 @@ async def root():
         "service": "Mr. Sina Brain MRI Processing Service",
         "status": "running",
         "version": "1.0.0",
-        "model": "ResNet50-BrainMRI",
+        "models": [
+            "ResNet50-BrainMRI",
+            "HuggingFace-WholeBrainSeg-UNEST"
+        ],
         "capabilities": [
             "3D MR image processing",
             "Volumetric analysis",
             "Brain region comparison",
             "Clinical interpretation",
-            "Heatmap generation"
+            "Heatmap generation",
+            "Detailed brain segmentation (133 structures)",
+            "MNI space registration"
         ]
     }
 
@@ -277,6 +294,200 @@ async def generate_heatmap(
         
     except Exception as e:
         logger.error(f"Error generating heatmap: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/segment-brain-mr")
+async def segment_brain_mr(
+    file: UploadFile = File(...),
+    mr_id: Optional[str] = None
+):
+    """
+    Perform detailed brain segmentation using Hugging Face model
+    """
+    try:
+        # Validate file type
+        allowed_extensions = ['.nii', '.nii.gz']  # NIfTI format required for segmentation
+        if not file.filename or not any(file.filename.lower().endswith(ext) for ext in allowed_extensions):
+            raise HTTPException(status_code=400, detail="Only NIfTI format (.nii, .nii.gz) supported for segmentation")
+        
+        # Save uploaded file temporarily
+        with tempfile.NamedTemporaryFile(delete=False, suffix=f"_{file.filename}") as temp_file:
+            content = await file.read()
+            temp_file.write(content)
+            temp_path = temp_file.name
+        
+        # Initialize registered_path to None to prevent unbound variable error
+        registered_path = None
+        
+        try:
+            # Register image to MNI space (required for the model)
+            registered_path = temp_path.replace(".nii.gz", "_mni.nii.gz").replace(".nii", "_mni.nii.gz")
+            registered_path = segmenter.register_to_mni(temp_path, registered_path)
+            
+            # Perform segmentation
+            segmentation_result = segmenter.segment_brain(registered_path)
+            
+            # Add metadata
+            segmentation_result.update({
+                "mr_id": mr_id,
+                "original_filename": file.filename,
+                "processing_timestamp": "2024-01-01T00:00:00Z",
+                "service_version": "1.0.0"
+            })
+            
+            logger.info(f"Successfully segmented brain MR: {mr_id}")
+            return segmentation_result
+            
+        finally:
+            # Clean up temporary files
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+            # Only try to remove registered_path if it was successfully created and is different from temp_path
+            if registered_path and os.path.exists(registered_path) and registered_path != temp_path:
+                os.unlink(registered_path)
+            
+    except Exception as e:
+        logger.error(f"Error segmenting brain MR: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Segmentation error: {str(e)}")
+
+@app.post("/compare-segmentations")
+async def compare_segmentations(
+    seg1_path: str,
+    seg2_path: str,
+    patient_id: Optional[str] = None
+):
+    """
+    Compare two brain segmentation results
+    """
+    try:
+        # Validate file paths
+        if not os.path.exists(seg1_path) or not os.path.exists(seg2_path):
+            raise HTTPException(status_code=404, detail="One or both segmentation files not found")
+        
+        # Compare segmentations
+        comparison_result = segmenter.compare_segmentations(seg1_path, seg2_path)
+        
+        # Add metadata
+        comparison_result.update({
+            "patient_id": patient_id,
+            "seg1_path": seg1_path,
+            "seg2_path": seg2_path,
+            "comparison_timestamp": "2024-01-01T00:00:00Z",
+            "service_version": "1.0.0"
+        })
+        
+        logger.info(f"Successfully compared segmentations for patient: {patient_id}")
+        return comparison_result
+        
+    except Exception as e:
+        logger.error(f"Error in segmentation comparison: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Comparison error: {str(e)}")
+
+@app.get("/brain-structures")
+async def get_brain_structures():
+    """
+    Get available brain structures for segmentation
+    """
+    # This would return the list of brain structures from the Hugging Face model
+    return {
+        "total_structures": 133,
+        "description": "Detailed whole brain segmentation with 133 structures",
+        "model": "wholeBrainSeg_Large_UNEST_v1.0",
+        "note": "See full structure list in huggingface_brain_seg.py"
+    }
+
+@app.post("/convert-dicom-to-nifti")
+async def convert_dicom_to_nifti(
+    dicom_dir: str,
+    output_dir: str,
+    subject_id: str
+):
+    """
+    Convert DICOM images to NIfTI format using dcm2niix
+    """
+    try:
+        result = await freesurfer_processor.convert_dicom_to_nifti(
+            dicom_dir=dicom_dir,
+            output_dir=output_dir,
+            subject_id=subject_id
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Error in DICOM to NIfTI conversion: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/freesurfer-analysis")
+async def freesurfer_analysis(
+    nifti_file: str,
+    subject_id: str,
+    flags: Optional[str] = None
+):
+    """
+    Run FreeSurfer recon-all analysis on a NIfTI file
+    """
+    try:
+        flag_list = flags.split() if flags else None
+        result = await freesurfer_processor.run_freesurfer_recon_all(
+            nifti_file=nifti_file,
+            subject_id=subject_id,
+            flags=flag_list
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Error in FreeSurfer analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/collect-freesurfer-stats")
+async def collect_freesurfer_stats(
+    subject_id: str
+):
+    """
+    Collect statistical data from FreeSurfer analysis
+    """
+    try:
+        result = await freesurfer_processor.collect_statistics(
+            subject_id=subject_id
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Error collecting FreeSurfer statistics: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/run-mr-analysis-pipeline")
+async def run_mr_analysis_pipeline(
+    dicom_dir: str,
+    subject_id: str,
+    output_dir: Optional[str] = None
+):
+    """
+    Run the complete MR analysis pipeline:
+    DICOM → NIfTI → FreeSurfer recon-all → Statistics
+    """
+    try:
+        result = await freesurfer_processor.run_analysis_manager(
+            dicom_dir=dicom_dir,
+            subject_id=subject_id,
+            output_dir=output_dir
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Error in MR analysis pipeline: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/freesurfer-subject-status/{subject_id}")
+async def get_freesurfer_subject_status(
+    subject_id: str
+):
+    """
+    Get the processing status of a FreeSurfer subject
+    """
+    try:
+        status = freesurfer_processor.get_subject_status(
+            subject_id=subject_id
+        )
+        return status
+    except Exception as e:
+        logger.error(f"Error getting subject status: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":

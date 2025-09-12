@@ -20,3 +20,546 @@ INFO:main:Mr. Sina Brain MRI Processing Service started successfully
 INFO:main:Using device: cpu
 INFO:     Application startup complete.
 INFO:     127.0.0.1:60764 - "GET /health HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23260]
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'venv/lib/python3.13/site-packages/isympy.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'venv/lib/python3.13/site-packages/torch/_storage_docs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'venv/lib/python3.13/site-packages/isympy.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'venv/lib/python3.13/site-packages/torch/_storage_docs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'venv/lib/python3.13/site-packages/monai/metrics/generalized_dice.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_brain_segmentation.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'test_monai_imports.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'main.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>
+WARNING:  StatReload detected changes in 'huggingface_brain_seg.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x000000020bb320c0 (most recent call first):
+  <no Python frame>

@@ -19,6 +19,7 @@ model Kullanicilar {
   hastane_id        String
   rol               Role     @default(DOKTOR)
   sifre             String
+  email             String?
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
   

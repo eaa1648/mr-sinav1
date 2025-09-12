@@ -5,7 +5,7 @@
  */
 
 // Service configuration
-const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://localhost:8000'
+const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://localhost:8001'
 
 /**
  * Compare two MR images using the Python service
@@ -191,5 +191,89 @@ export async function isServiceAvailable(): Promise<boolean> {
   } catch (error) {
     console.error('Python service not available:', error);
     return false;
+  }
+}
+
+/**
+ * Segment brain MR image using Hugging Face model
+ * @param formData FormData containing the MR image file
+ * @param mrId MR image ID (optional)
+ * @returns Segmentation result
+ */
+export async function segmentBrainMR(formData: FormData, mrId?: string) {
+  try {
+    const url = new URL(`${PYTHON_SERVICE_URL}/segment-brain-mr`);
+    if (mrId) {
+      url.searchParams.append('mr_id', mrId);
+    }
+    
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Python service error: ${response.status} ${response.statusText} - ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error segmenting brain MR:', error);
+    throw error;
+  }
+}
+
+/**
+ * Compare two brain segmentation results
+ * @param seg1Path Path to first segmentation result
+ * @param seg2Path Path to second segmentation result
+ * @param patientId Patient ID (optional)
+ * @returns Comparison result
+ */
+export async function compareSegmentations(seg1Path: string, seg2Path: string, patientId?: string) {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/compare-segmentations`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        seg1_path: seg1Path,
+        seg2_path: seg2Path,
+        patient_id: patientId
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error comparing segmentations:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get available brain structures for segmentation
+ * @returns Brain structures information
+ */
+export async function getBrainStructures() {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/brain-structures`);
+
+    if (!response.ok) {
+      throw new Error(`Python service error: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error getting brain structures:', error);
+    throw error;
   }
 }

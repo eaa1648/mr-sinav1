@@ -13,8 +13,8 @@
     "**/venv/**",
     "**/.venv/**"
   ],
-  "venvPath": ".",
-  "venv": "./venv",
+  "venvPath": "../../mr_env",
+  "venv": "mr_env",
   "pythonVersion": "3.13",
   "pythonPlatform": "Darwin",
   "executionEnvironments": [
@@ -23,7 +23,7 @@
       "pythonVersion": "3.13",
       "pythonPlatform": "Darwin",
       "extraPaths": [
-        "./venv/lib/python3.13/site-packages"
+        "../../mr_env/lib/python3.13/site-packages"
       ]
     }
   ],
