@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Brain, User, Building, Phone, Mail, GraduationCap, Calendar, Shield } from 'lucide-react'
+
+interface Hospital {
+  hastane_id: string
+  hastane_adi: string
+  sehir: string
+}
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -21,9 +27,27 @@ export default function RegisterPage() {
     diploma_no: '',
     mezuniyet_tarihi: ''
   })
+  const [hospitals, setHospitals] = useState<Hospital[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+
+  useEffect(() => {
+    // Fetch hospitals when component mounts
+    const fetchHospitals = async () => {
+      try {
+        const response = await fetch('/api/hospitals')
+        const data = await response.json()
+        if (response.ok) {
+          setHospitals(data.hospitals)
+        }
+      } catch (error) {
+        console.error('Error fetching hospitals:', error)
+      }
+    }
+
+    fetchHospitals()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -305,17 +329,29 @@ export default function RegisterPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="hastane_id" className="block text-sm font-medium text-gray-900">
-                    Hastane ID *
+                    Hastane *
                   </label>
-                  <input
+                  <select
                     id="hastane_id"
                     name="hastane_id"
-                    type="text"
                     value={formData.hastane_id}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-600"
-                    placeholder="HST001"
-                  />
+                    onChange={(e) => {
+                      const selectedHospital = hospitals.find(h => h.hastane_id === e.target.value)
+                      setFormData(prev => ({
+                        ...prev,
+                        hastane_id: e.target.value,
+                        hastane_adi: selectedHospital ? selectedHospital.hastane_adi : ''
+                      }))
+                    }}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                  >
+                    <option value="">Hastane seçin</option>
+                    {hospitals.map((hospital) => (
+                      <option key={hospital.hastane_id} value={hospital.hastane_id}>
+                        {hospital.hastane_adi} ({hospital.sehir})
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
@@ -327,9 +363,9 @@ export default function RegisterPage() {
                     name="hastane_adi"
                     type="text"
                     value={formData.hastane_adi}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-600"
-                    placeholder="Ankara Üniversitesi Tıp Fakültesi"
+                    readOnly
+                    className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-600 bg-gray-100"
+                    placeholder="Hastane adı otomatik olarak doldurulacak"
                   />
                 </div>
               </div>
@@ -399,21 +435,8 @@ export default function RegisterPage() {
                   Giriş yapın
                 </Link>
               </p>
-              <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-                ← Ana sayfaya dön
-              </Link>
             </div>
           </form>
-        </div>
-
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-          <h4 className="text-sm font-medium text-blue-800 mb-2">Önemli Bilgiler:</h4>
-          <ul className="text-xs text-blue-700 space-y-1">
-            <li>• Başvurunuz sistem yöneticisi tarafından incelenecektir</li>
-            <li>• Onay süreci 1-3 iş günü sürebilir</li>
-            <li>• Başvuru durumunuz e-posta ile bildirilecektir</li>
-            <li>• Geçerli mesleki bilgiler ve hastane ID'si gereklidir</li>
-          </ul>
         </div>
       </div>
     </div>

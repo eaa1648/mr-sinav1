@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
+import { Prisma } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -97,6 +98,17 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'approve') {
+      // Check if hospital exists
+      const hospital = await prisma.hastaneler.findUnique({
+        where: { hastane_id: registration.hastane_id }
+      })
+
+      if (!hospital) {
+        return NextResponse.json({ 
+          error: `Hastane bulunamadı (ID: ${registration.hastane_id}). Bu başvuruyu onaylamadan önce hastanenin sistemde kayıtlı olduğundan emin olun.` 
+        }, { status: 400 })
+      }
+
       // Create the user account
       const newUser = await prisma.kullanicilar.create({
         data: {
@@ -147,6 +159,12 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Process registration error:', error)
+    // Check if it's a foreign key constraint error
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+      return NextResponse.json({ 
+        error: 'Veritabanı hatası: Hastane bulunamadı. Bu başvuruyu onaylamadan önce hastanenin sistemde kayıtlı olduğundan emin olun.' 
+      }, { status: 400 })
+    }
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }

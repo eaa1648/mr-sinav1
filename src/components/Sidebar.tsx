@@ -19,7 +19,8 @@ import {
   X,
   Activity,
   BarChart3,
-  Shield
+  Shield,
+  Building
 } from 'lucide-react'
 
 import { LucideIcon } from 'lucide-react'
@@ -87,6 +88,12 @@ export default function Sidebar({ user, onLogout }: SidebarProps) {
         icon: Shield,
         roles: ['ADMIN'] as string[],
         badge: 2
+      },
+      {
+        name: 'Hastane Yönetimi',
+        href: '/dashboard/admin/hospitals',
+        icon: Building,
+        roles: ['ADMIN'] as string[]
       }
     ] : []),
     {

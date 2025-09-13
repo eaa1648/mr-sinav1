@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Brain, Eye, EyeOff, Lock, User, Building } from 'lucide-react'
+
+interface Hospital {
+  hastane_id: string
+  hastane_adi: string
+  sehir: string
+}
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -11,10 +17,28 @@ export default function LoginPage() {
     hastane_id: '',
     sifre: ''
   })
+  const [hospitals, setHospitals] = useState<Hospital[]>([])
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+
+  useEffect(() => {
+    // Fetch hospitals when component mounts
+    const fetchHospitals = async () => {
+      try {
+        const response = await fetch('/api/hospitals')
+        const data = await response.json()
+        if (response.ok) {
+          setHospitals(data.hospitals)
+        }
+      } catch (error) {
+        console.error('Error fetching hospitals:', error)
+      }
+    }
+
+    fetchHospitals()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,7 +70,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -101,22 +125,27 @@ export default function LoginPage() {
 
             <div>
               <label htmlFor="hastane_id" className="block text-sm font-medium text-gray-900 mb-2">
-                Hastane ID
+                Hastane
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Building className="h-5 w-5 text-gray-500" />
                 </div>
-                <input
+                <select
                   id="hastane_id"
                   name="hastane_id"
-                  type="text"
-                  required
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-600"
-                  placeholder="Hastane Kimliğiniz"
                   value={formData.hastane_id}
                   onChange={handleChange}
-                />
+                  required
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-600 appearance-none"
+                >
+                  <option value="">Hastane seçin</option>
+                  {hospitals.map((hospital) => (
+                    <option key={hospital.hastane_id} value={hospital.hastane_id}>
+                      {hospital.hastane_adi} ({hospital.sehir})
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

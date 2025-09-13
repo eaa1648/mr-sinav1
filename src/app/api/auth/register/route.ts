@@ -51,6 +51,17 @@ export async function POST(request: NextRequest) {
       }, { status: 409 })
     }
 
+    // Check if hospital exists
+    const hospital = await prisma.hastaneler.findUnique({
+      where: { hastane_id }
+    })
+
+    if (!hospital) {
+      return NextResponse.json({ 
+        error: 'Geçersiz hastane ID. Lütfen geçerli bir hastane seçin.' 
+      }, { status: 400 })
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(sifre, 10)
 
@@ -62,7 +73,7 @@ export async function POST(request: NextRequest) {
         soyad,
         uzmanlik_alani,
         hastane_id,
-        hastane_adi,
+        hastane_adi: hospital.hastane_adi,
         sifre: hashedPassword,
         telefon,
         email,

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
 import { calculateGafScore } from '@/lib/gafScoring'
+import { RaporStatus } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,8 +24,17 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit
 
     const where = payload.role === 'ADMIN' 
-      ? (status ? { durum: status.toUpperCase() as 'TASLAK' | 'INCELEME' | 'ONAYLANDI' | 'ARSIVLENDI' } : {})
-      : (status ? { olusturan_kullanici_id: payload.userId, durum: status.toUpperCase() as 'TASLAK' | 'INCELEME' | 'ONAYLANDI' | 'ARSIVLENDI' } : { olusturan_kullanici_id: payload.userId })
+      ? (status ? { 
+          durum: status === 'pending' 
+            ? { in: [RaporStatus.TASLAK, RaporStatus.INCELEME] } 
+            : RaporStatus[status.toUpperCase() as keyof typeof RaporStatus]
+        } : {})
+      : (status ? { 
+          olusturan_kullanici_id: payload.userId, 
+          durum: status === 'pending' 
+            ? { in: [RaporStatus.TASLAK, RaporStatus.INCELEME] } 
+            : RaporStatus[status.toUpperCase() as keyof typeof RaporStatus]
+        } : { olusturan_kullanici_id: payload.userId })
 
     const [reports, total] = await Promise.all([
       prisma.raporlar.findMany({
@@ -153,7 +163,7 @@ export async function POST(request: NextRequest) {
         optimizasyon_sonucu,
         doktor_gorusleri,
         gaf_uyum_skoru: calculatedGafScore ? parseFloat(calculatedGafScore.toString()) : null,
-        durum: 'TASLAK'
+        durum: RaporStatus.TASLAK
       },
       include: {
         hasta: {
