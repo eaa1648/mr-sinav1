@@ -124,7 +124,7 @@ export default function InteractiveTurkeyMap() {
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-900">İşbirliği Yaptığımız Hastaneler</h3>
-          <p className="text-sm text-gray-600">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
+          <p className="text-sm text-gray-800">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
         </div>
         <div className="p-6 flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
@@ -138,7 +138,7 @@ export default function InteractiveTurkeyMap() {
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-900">İşbirliği Yaptığımız Hastaneler</h3>
-          <p className="text-sm text-gray-600">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
+          <p className="text-sm text-gray-800">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
         </div>
         <div className="p-6">
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
@@ -165,7 +165,7 @@ export default function InteractiveTurkeyMap() {
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-900">İşbirliği Yaptığımız Hastaneler</h3>
-          <p className="text-sm text-gray-600">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
+          <p className="text-sm text-gray-800">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
         </div>
 
         <div className="p-6">
@@ -174,22 +174,22 @@ export default function InteractiveTurkeyMap() {
             <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Harita yükleniyor...</p>
+                <p className="text-gray-800">Harita yükleniyor...</p>
               </div>
             </div>
 
             {/* Hospital List */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-indigo-50 p-4 rounded-lg text-center">
-                  <div className="text-2xl font-bold text-indigo-600">{hospitals.length}</div>
-                  <div className="text-sm text-indigo-800">Hastane</div>
+                <div className="bg-indigo-50 p-4 rounded-lg text-center border border-indigo-100">
+                  <div className="text-2xl font-bold text-indigo-700">{hospitals.length}</div>
+                  <div className="text-sm text-indigo-800 font-medium">Hastane</div>
                 </div>
-                <div className="bg-green-50 p-4 rounded-lg text-center">
-                  <div className="text-2xl font-bold text-green-600">
+                <div className="bg-green-50 p-4 rounded-lg text-center border border-green-100">
+                  <div className="text-2xl font-bold text-green-700">
                     {hospitals.reduce((sum, h) => sum + h.aktif_doktor_sayisi, 0)}
                   </div>
-                  <div className="text-sm text-green-800">Doktor</div>
+                  <div className="text-sm text-green-800 font-medium">Doktor</div>
                 </div>
               </div>
 
@@ -212,31 +212,31 @@ export default function InteractiveTurkeyMap() {
                         />
                         <div>
                           <h4 className="font-medium text-gray-900">{hospital.hastane_adi}</h4>
-                          <p className="text-sm text-gray-600">{hospital.sehir}</p>
+                          <p className="text-sm text-gray-700">{hospital.sehir}</p>
                         </div>
                       </div>
                       <div className="text-right text-sm">
-                        <div className="text-indigo-600 font-medium">{hospital.aktif_doktor_sayisi} doktor</div>
-                        <div className="text-gray-500">{hospital.aktif_hasta_sayisi} hasta</div>
+                        <div className="text-indigo-700 font-medium">{hospital.aktif_doktor_sayisi} doktor</div>
+                        <div className="text-gray-700">{hospital.aktif_hasta_sayisi} hasta</div>
                       </div>
                     </div>
                     
                     {selectedHospital?.hastane_id === hospital.hastane_id && (
                       <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
                         {hospital.telefon && (
-                          <div className="flex items-center text-gray-600 text-sm">
+                          <div className="flex items-center text-gray-700 text-sm">
                             <Phone className="h-4 w-4 mr-2" />
                             {hospital.telefon}
                           </div>
                         )}
                         {hospital.email && (
-                          <div className="flex items-center text-gray-600 text-sm">
+                          <div className="flex items-center text-gray-700 text-sm">
                             <Mail className="h-4 w-4 mr-2" />
                             {hospital.email}
                           </div>
                         )}
                         {hospital.adres && (
-                          <div className="text-gray-600 text-sm">
+                          <div className="text-gray-700 text-sm">
                             {hospital.adres}
                           </div>
                         )}
@@ -300,13 +300,13 @@ export default function InteractiveTurkeyMap() {
                     }}
                   >
                     <Popup>
-                      <div className="font-medium">{hospital.hastane_adi}</div>
-                      <div className="text-sm text-gray-600">{hospital.sehir}</div>
+                      <div className="font-medium text-gray-900">{hospital.hastane_adi}</div>
+                      <div className="text-sm text-gray-700">{hospital.sehir}</div>
                       <div className="text-sm mt-1">
-                        <span className="font-medium">Doktor:</span> {hospital.aktif_doktor_sayisi}
+                        <span className="font-medium text-gray-900">Doktor:</span> <span className="text-gray-800">{hospital.aktif_doktor_sayisi}</span>
                       </div>
                       <div className="text-sm">
-                        <span className="font-medium">Hasta:</span> {hospital.aktif_hasta_sayisi}
+                        <span className="font-medium text-gray-900">Hasta:</span> <span className="text-gray-800">{hospital.aktif_hasta_sayisi}</span>
                       </div>
                     </Popup>
                   </Marker>
@@ -315,19 +315,19 @@ export default function InteractiveTurkeyMap() {
             </MapContainer>
             
             {/* Legend */}
-            <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 rounded-lg p-2 text-xs z-[1000]">
-              <div className="font-medium mb-1">Hastane Yoğunluğu</div>
-              <div className="flex items-center mb-1">
-                <div className="w-3 h-3 rounded-full bg-green-500 mr-1"></div>
-                <span>20+ Doktor</span>
+            <div className="absolute bottom-2 left-2 bg-white border border-gray-300 rounded-lg p-3 text-sm z-[1000] shadow-md">
+              <div className="font-medium text-gray-900 mb-2">Hastane Yoğunluğu</div>
+              <div className="flex items-center mb-2">
+                <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                <span className="text-gray-800">20+ Doktor</span>
               </div>
-              <div className="flex items-center mb-1">
-                <div className="w-3 h-3 rounded-full bg-blue-500 mr-1"></div>
-                <span>15+ Doktor</span>
+              <div className="flex items-center mb-2">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                <span className="text-gray-800">15+ Doktor</span>
               </div>
               <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-amber-500 mr-1"></div>
-                <span>15 Doktor</span>
+                <div className="w-3 h-3 rounded-full bg-amber-500 mr-2"></div>
+                <span className="text-gray-800">15 Doktor</span>
               </div>
             </div>
           </div>

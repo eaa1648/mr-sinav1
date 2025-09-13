@@ -19,9 +19,9 @@ export default function Home() {
               <span className="text-2xl font-bold text-gray-900">Mr. Sina</span>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="#features" className="text-gray-500 hover:text-gray-900">Özellikler</a>
-              <a href="#hospitals" className="text-gray-500 hover:text-gray-900">Hastaneler</a>
-              <a href="#about" className="text-gray-500 hover:text-gray-900">Hakkımızda</a>
+              <a href="#features" className="text-gray-700 hover:text-gray-900 font-medium">Özellikler</a>
+              <a href="#hospitals" className="text-gray-700 hover:text-gray-900 font-medium">Hastaneler</a>
+              <a href="#about" className="text-gray-700 hover:text-gray-900 font-medium">Hakkımızda</a>
             </nav>
             <div className="flex items-center space-x-4">
               <Link 
@@ -49,7 +49,7 @@ export default function Home() {
             <span className="text-indigo-600">Yapay Zekâ Destekli</span>
             <br />Klinik İzlem ve Karar Destek Sistemi
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-800 mb-8 max-w-3xl mx-auto">
             MR görüntüleme teknolojisi ile desteklenen, yapay zeka tabanlı 
             psikiyatrik hasta takip ve prognoz değerlendirme platformu
           </p>
@@ -62,7 +62,7 @@ export default function Home() {
             </Link>
             <button 
               onClick={() => setShowDemo(true)}
-              className="border border-indigo-600 text-indigo-600 hover:bg-indigo-50 px-8 py-3 rounded-lg font-medium transition-colors"
+              className="border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 px-8 py-3 rounded-lg font-medium transition-colors"
             >
               Demo İzle
             </button>
@@ -75,64 +75,64 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Sistem Özellikleri</h2>
-            <p className="text-lg text-gray-600">Modern teknoloji ile desteklenen kapsamlı klinik çözümler</p>
+            <p className="text-lg text-gray-800">Modern teknoloji ile desteklenen kapsamlı klinik çözümler</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow bg-white border border-gray-200">
               <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Brain className="h-8 w-8 text-indigo-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Yapay Zeka Destekli Prognoz</h3>
-              <p className="text-gray-600">MR görüntüleri ve klinik verilerle desteklenen gelişmiş prognoz analizi</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Yapay Zeka Destekli Prognoz</h3>
+              <p className="text-gray-800">MR görüntüleri ve klinik verilerle desteklenen gelişmiş prognoz analizi</p>
             </div>
             
-            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow bg-white border border-gray-200">
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Activity className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Longitudinal İzlem</h3>
-              <p className="text-gray-600">Hastaların zaman içindeki değişimlerinin detaylı takibi ve analizi</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Longitudinal İzlem</h3>
+              <p className="text-gray-800">Hastaların zaman içindeki değişimlerinin detaylı takibi ve analizi</p>
             </div>
             
-            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow bg-white border border-gray-200">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Otomatik Raporlama</h3>
-              <p className="text-gray-600">AI destekli kapsamlı raporlar ve klinik karar destek öneriler</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Otomatik Raporlama</h3>
+              <p className="text-gray-800">AI destekli kapsamlı raporlar ve klinik karar destek öneriler</p>
             </div>
             
-            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
+            <div className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow bg-white border border-gray-200">
               <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Çok Modüllü Yapı</h3>
-              <p className="text-gray-600">Bipolar, Şizofreni ve diğer psikiyatrik hastalıklar için özel modüller</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Çok Modüllü Yapı</h3>
+              <p className="text-gray-800">Bipolar, Şizofreni ve diğer psikiyatrik hastalıklar için özel modüller</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Statistics */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="text-4xl font-bold text-indigo-600 mb-2">500+</div>
-              <div className="text-gray-600">Takip Edilen Hasta</div>
+              <div className="text-gray-800 font-medium">Takip Edilen Hasta</div>
             </div>
-            <div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="text-4xl font-bold text-indigo-600 mb-2">15+</div>
-              <div className="text-gray-600">İşbirlikçi Hastane</div>
+              <div className="text-gray-800 font-medium">İşbirlikçi Hastane</div>
             </div>
-            <div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="text-4xl font-bold text-indigo-600 mb-2">95%</div>
-              <div className="text-gray-600">Doktor Memnuniyeti</div>
+              <div className="text-gray-800 font-medium">Doktor Memnuniyeti</div>
             </div>
-            <div>
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="text-4xl font-bold text-indigo-600 mb-2">24/7</div>
-              <div className="text-gray-600">Sistem Erişimi</div>
+              <div className="text-gray-800 font-medium">Sistem Erişimi</div>
             </div>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">İşbirliği Yaptığımız Hastaneler</h2>
-            <p className="text-lg text-gray-600">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
+            <p className="text-lg text-gray-800">Türkiye genelinde psikiyatri kliniklerinde kullanılmaktadır</p>
           </div>
           
           <InteractiveTurkeyMap />
@@ -151,11 +151,11 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50">
+      <section id="about" className="py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Hakkımızda</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-800 max-w-3xl mx-auto">
               Mr. Sina, psikiyatrik hastalıkların tanı ve tedavi süreçlerinde 
               yapay zeka teknolojilerini kullanarak doktorlara karar destek sağlayan 
               yenilikçi bir platformdur. MR görüntüleme teknolojisi ile desteklenen 
@@ -164,20 +164,20 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
+            <div className="text-center p-6 rounded-lg border border-gray-300 bg-white shadow-sm hover:shadow-md transition-shadow">
               <Shield className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Güvenli</h3>
-              <p className="text-gray-600">KVKK ve GDPR uyumlu güvenli veri saklama</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Güvenli</h3>
+              <p className="text-gray-800">KVKK ve GDPR uyumlu güvenli veri saklama</p>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6 rounded-lg border border-gray-300 bg-white shadow-sm hover:shadow-md transition-shadow">
               <Zap className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Hızlı</h3>
-              <p className="text-gray-600">Gerçek zamanlı analiz ve raporlama</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Hızlı</h3>
+              <p className="text-gray-800">Gerçek zamanlı analiz ve raporlama</p>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6 rounded-lg border border-gray-300 bg-white shadow-sm hover:shadow-md transition-shadow">
               <BarChart3 className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Analitik</h3>
-              <p className="text-gray-600">Detaylı istatistik ve trend analizi</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Analitik</h3>
+              <p className="text-gray-800">Detaylı istatistik ve trend analizi</p>
             </div>
           </div>
         </div>

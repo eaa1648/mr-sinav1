@@ -1,15 +1,9 @@
 @import "tailwindcss";
 
+/* Define CSS variables for light and dark themes */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,6 +13,7 @@
   }
 }
 
+/* Apply CSS variables to the body */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -37,4 +32,17 @@ input::placeholder, textarea::placeholder {
 /* Ensure labels are also dark for better contrast */
 label {
   color: #000000 !important; /* Make labels black */
+}
+
+/* Improve text contrast for gray text */
+.text-gray-600 {
+  color: #374151 !important; /* Darker gray for better readability */
+}
+
+.text-gray-500 {
+  color: #4b5563 !important; /* Darker gray for better readability */
+}
+
+.text-gray-400 {
+  color: #6b7280 !important; /* Darker gray for better readability */
 }
