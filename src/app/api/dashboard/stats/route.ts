@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
+import { createSystemUpdateNotification } from '@/lib/notifications'
 
 export async function GET(request: NextRequest) {
   try {
@@ -69,6 +70,20 @@ export async function GET(request: NextRequest) {
         }
       }
     })
+
+    // Create a system update notification for demonstration
+    // In a real application, this would be triggered by actual system events
+    try {
+      // Only create notification occasionally to avoid spam
+      if (Math.random() < 0.1) { // 10% chance
+        await createSystemUpdateNotification(
+          payload.userId,
+          'Sistemde yeni özellikler mevcut! En son AI modelleriyle daha hızlı analizler.'
+        )
+      }
+    } catch (notificationError) {
+      console.error('Failed to create system update notification:', notificationError)
+    }
 
     return NextResponse.json({
       totalPatients,

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
 import { compareMRImages } from '@/lib/pythonService'
+import { createReportReadyNotification } from '@/lib/notifications'
 
 export async function POST(request: NextRequest) {
   try {
@@ -83,6 +84,17 @@ export async function POST(request: NextRequest) {
         durum: 'TASLAK'
       }
     })
+
+    // Create notification for report generation
+    try {
+      await createReportReadyNotification(
+        payload.userId,
+        `${patient.ad} ${patient.soyad}`,
+        `/dashboard/reports/${comparisonRecord.rapor_id}`
+      )
+    } catch (notificationError) {
+      console.error('Failed to create report ready notification:', notificationError)
+    }
 
     return NextResponse.json({
       message: 'MR karşılaştırması başarıyla tamamlandı',

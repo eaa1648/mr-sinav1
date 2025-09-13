@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
+import { createPatientUpdateNotification } from '@/lib/notifications'
 
 export async function GET(request: NextRequest) {
   try {
@@ -147,6 +148,18 @@ export async function POST(request: NextRequest) {
         }
       }
     })
+
+    // Create notification for patient creation
+    try {
+      await createPatientUpdateNotification(
+        payload.userId,
+        `${patient.ad} ${patient.soyad}`,
+        'hasta kaydı',
+        `/dashboard/patients/${patient.hasta_id}`
+      )
+    } catch (notificationError) {
+      console.error('Failed to create patient update notification:', notificationError)
+    }
 
     return NextResponse.json({
       message: 'Hasta başarıyla eklendi',

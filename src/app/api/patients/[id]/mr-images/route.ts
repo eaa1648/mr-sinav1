@@ -4,6 +4,7 @@ import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import { existsSync } from 'fs'
+import { createMRUploadNotification } from '@/lib/notifications'
 
 export async function GET(
   request: NextRequest,
@@ -143,6 +144,17 @@ export async function POST(
         isleme_durumu: 'BEKLEMEDE'
       }
     })
+
+    // Create notification for MR upload
+    try {
+      await createMRUploadNotification(
+        payload.userId,
+        `${patient.ad} ${patient.soyad}`,
+        `/dashboard/patients/${patientId}/mr-images/${mrImage.mr_id}`
+      )
+    } catch (notificationError) {
+      console.error('Failed to create MR upload notification:', notificationError)
+    }
 
     // TODO: Trigger image processing pipeline
     // This would call your Python/PyTorch image processing service

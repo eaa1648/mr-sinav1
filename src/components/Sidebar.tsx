@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 
 import { LucideIcon } from 'lucide-react'
+import NotificationSystem from '@/components/NotificationSystem'
 
 interface SidebarProps {
   user: {
@@ -141,12 +142,15 @@ export default function Sidebar({ user, onLogout }: SidebarProps) {
             )}
           </div>
           
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:block p-1.5 rounded-md text-gray-400 hover:text-gray-600"
-          >
-            <Menu className="h-4 w-4" />
-          </button>
+          <div className="flex items-center space-x-2">
+            {!collapsed && <NotificationSystem userId={user.kullanici_id} />}
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="hidden md:block p-1.5 rounded-md text-gray-400 hover:text-gray-600"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* User Info */}

@@ -27,6 +27,7 @@ model Kullanicilar {
   hasta_kayitlari   Hasta_Kayitlari[]
   klinik_puanlar    Klinik_Olcek_Puanlari[]
   raporlar          Raporlar[]
+  bildirimler       Bildirimler[]
   hastane           Hastaneler @relation(fields: [hastane_id], references: [hastane_id])
 
   @@map("kullanicilar")
@@ -200,6 +201,24 @@ model Hastaneler {
   @@map("hastaneler")
 }
 
+model Bildirimler {
+  bildirim_id       String   @id @default(cuid())
+  kullanici_id      String
+  tip               BildirimTipi
+  baslik            String
+  mesaj             String
+  okundu            Boolean  @default(false)
+  oncelik           BildirimOncelik @default(ORTA)
+  action_url        String?
+  olusturulma_tarihi DateTime @default(now())
+  guncelleme_tarihi DateTime @updatedAt
+  
+  // Relations
+  kullanici         Kullanicilar @relation(fields: [kullanici_id], references: [kullanici_id])
+
+  @@map("bildirimler")
+}
+
 enum Role {
   DOKTOR
   YONETICI
@@ -225,4 +244,18 @@ enum KayitStatus {
   BEKLEMEDE
   ONAYLANDI
   REDDEDILDI
+}
+
+enum BildirimTipi {
+  MR_YUKLEME
+  RAPOR_HAZIR
+  RANDEVU
+  SISTEM
+  HASTA_GUNCELLEME
+}
+
+enum BildirimOncelik {
+  DUSUK
+  ORTA
+  YUKSEK
 }

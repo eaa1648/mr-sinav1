@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { verifyToken, extractTokenFromHeader } from '@/lib/auth'
 import { calculateGafScore } from '@/lib/gafScoring'
 import { RaporStatus } from '@prisma/client'
+import { createReportReadyNotification } from '@/lib/notifications'
 
 export async function GET(request: NextRequest) {
   try {
@@ -182,6 +183,17 @@ export async function POST(request: NextRequest) {
         }
       }
     })
+
+    // Create notification for report generation
+    try {
+      await createReportReadyNotification(
+        payload.userId,
+        `${report.hasta.ad} ${report.hasta.soyad}`,
+        `/dashboard/reports/${report.rapor_id}`
+      )
+    } catch (notificationError) {
+      console.error('Failed to create report ready notification:', notificationError)
+    }
 
     return NextResponse.json({
       message: 'Rapor başarıyla oluşturuldu',
