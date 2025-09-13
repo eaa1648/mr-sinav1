@@ -1,13 +1,51 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Brain, Activity, FileText, Users, MapPin, Shield, Zap, BarChart3, Mail, Phone, MapPin as LocationIcon, Linkedin, Twitter, Youtube, Github } from 'lucide-react'
 import InteractiveTurkeyMap from '@/components/InteractiveTurkeyMap'
 import DemoModal from '@/components/DemoModal'
 
+interface Stats {
+  totalHospitals: number
+  totalPatients: number
+  totalDoctors: number
+}
+
 export default function Home() {
   const [showDemo, setShowDemo] = useState(false)
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchStats()
+  }, [])
+
+  const fetchStats = async () => {
+    try {
+      const response = await fetch('/api/stats')
+      if (response.ok) {
+        const data = await response.json()
+        setStats(data)
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Format numbers to display with + suffix for larger numbers
+  const formatNumber = (num: number): string => {
+    if (num >= 1000) {
+      return `${Math.floor(num / 1000)}k+`
+    } else if (num >= 100) {
+      return `${Math.floor(num / 100) * 100}+`
+    } else {
+      return num.toString()
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -119,16 +157,22 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-4xl font-bold text-indigo-600 mb-2">500+</div>
+              <div className="text-4xl font-bold text-indigo-600 mb-2">
+                {loading ? '...' : formatNumber(stats?.totalPatients || 0)}
+              </div>
               <div className="text-gray-800 font-medium">Takip Edilen Hasta</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-4xl font-bold text-indigo-600 mb-2">15+</div>
+              <div className="text-4xl font-bold text-indigo-600 mb-2">
+                {loading ? '...' : formatNumber(stats?.totalHospitals || 0)}
+              </div>
               <div className="text-gray-800 font-medium">İşbirlikçi Hastane</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-4xl font-bold text-indigo-600 mb-2">95%</div>
-              <div className="text-gray-800 font-medium">Doktor Memnuniyeti</div>
+              <div className="text-4xl font-bold text-indigo-600 mb-2">
+                {loading ? '...' : formatNumber(stats?.totalDoctors || 0)}
+              </div>
+              <div className="text-gray-800 font-medium">Uzman Doktor</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="text-4xl font-bold text-indigo-600 mb-2">24/7</div>

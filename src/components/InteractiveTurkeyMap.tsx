@@ -22,7 +22,7 @@ interface Hospital {
 // Helper functions
 const getMarkerColor = (hospital: Hospital) => {
   if (hospital.aktif_doktor_sayisi > 20) return '#10B981' // green
-  if (hospital.aktif_doktor_sayisi > 15) return '#3B82F6' // blue
+  if (hospital.aktif_doktor_sayisi > 10) return '#3B82F6' // blue
   return '#F59E0B' // amber
 }
 
@@ -319,15 +319,15 @@ export default function InteractiveTurkeyMap() {
               <div className="font-medium text-gray-900 mb-2">Hastane Yoğunluğu</div>
               <div className="flex items-center mb-2">
                 <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                <span className="text-gray-800">20+ Doktor</span>
+                <span className="text-gray-800">Çok Yoğun (20+ Doktor)</span>
               </div>
               <div className="flex items-center mb-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                <span className="text-gray-800">15+ Doktor</span>
+                <span className="text-gray-800">Yoğun (10+ Doktor)</span>
               </div>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-amber-500 mr-2"></div>
-                <span className="text-gray-800">15 Doktor</span>
+                <span className="text-gray-800">Orta Yoğunluk</span>
               </div>
             </div>
           </div>
